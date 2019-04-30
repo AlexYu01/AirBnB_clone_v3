@@ -37,11 +37,10 @@ class FileStorage:
             The object if it exists. None if cls or id is None or if the
             object does not exist.
         """
-        if cls is None or cls not in classes or id is None:
+        if cls is None or cls not in classes or id is None or type(id) is not \
+                str:
             return None
-        if cls + '.' + id in self.__objects:
-            return self.__objects[cls + '.' + id]
-        return None
+        return (self.__objects.get(cls + '.' + id, None))
 
     def count(self, cls=None):
         """Retrieves the number of total objects based on the class name.
