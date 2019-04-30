@@ -43,6 +43,29 @@ class FileStorage:
             return self.__objects[cls + '.' + id]
         return None
 
+    def count(self, cls=None):
+        """Retrieves the number of total objects based on the class name.
+        If no cls is specified, all cls objects total is returned.
+
+        Checks the `__objects` dictionary for the object if it exists.
+
+        Args:
+            cls (str): String representing the class name(Place, User, Amenity)
+
+        Returns:
+            The number of object if it exists.
+        """
+        count = 0
+        if cls is not None:
+            for key, value in self.__objects.items():
+                if cls == value.__class__ or cls == value.__class__.__name__:
+                    count += 1
+        else:
+            for key, value in self.__objects.items():
+                count += 1
+
+        return count
+
     def all(self, cls=None):
         """returns the dictionary __objects"""
         if cls is not None:

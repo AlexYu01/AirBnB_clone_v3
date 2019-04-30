@@ -62,6 +62,27 @@ class DBStorage:
             return None
         return (objs.first())
 
+    def count(self, cls=None):
+        """Retrieves the total number of object based on the class name.
+
+        Performs a query on the database to retrieve the matching row if it
+        exists and uses the columns to create the object for return.
+
+        Args:
+            cls (str): String representing the class name(Place, User, Amenity)
+
+        Returns:
+            The object if it exists. If cls is None, the total number of
+            objects stored is returned.
+        """
+        count = 0
+        for clss in classes:
+            if cls is None or cls is classes[clss] or cls is clss:
+                objs = self.__session.query(classes[clss]).all()
+                for obj in objs:
+                    count += 1
+        return count
+
     def all(self, cls=None):
         """query on the current database session"""
         new_dict = {}
