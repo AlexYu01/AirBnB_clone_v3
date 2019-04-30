@@ -55,7 +55,7 @@ class DBStorage:
             The object if it exists. None if cls or id is None or if the
             object does not exist.
         """
-        if cls is None or cls is not in classes or id is None:
+        if cls is None or cls not in classes or id is None:
             return None
         cls = classes(cls)
         obj = self.__session.query(cls).filter(cls.id==id).first()
