@@ -24,6 +24,24 @@ class FileStorage:
     # dictionary - empty but will store all objects by <class name>.id
     __objects = {}
 
+    def get(self, cls, id):
+        """Retrieves an object based on the class name and its ID.
+
+        Performs a query on the database to retrieve the matching row if it
+        exists and uses the columns to create the object for return.
+
+        Args:
+            cls (str): String representing the class name (Place, User, Amenity)
+            id: (str): UUID4 string representing the object ID.
+
+        Returns:
+            The object if it exists. None if cls or id is None or if the
+            object does not exist.
+        """
+        if cls is None or cls is not in classes or id is None:
+            return None
+        return self.__objects(cls + '.' + id)
+
     def all(self, cls=None):
         """returns the dictionary __objects"""
         if cls is not None:
