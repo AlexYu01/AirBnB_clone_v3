@@ -27,8 +27,7 @@ class FileStorage:
     def get(self, cls, id):
         """Retrieves an object based on the class name and its ID.
 
-        Performs a query on the database to retrieve the matching row if it
-        exists and uses the columns to create the object for return.
+        Checks the `__objects` dictionary for the object if it exists.
 
         Args:
             cls (str): String representing the class name (Place, User, Amenity)
