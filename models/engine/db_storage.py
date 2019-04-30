@@ -57,8 +57,10 @@ class DBStorage:
         if cls is None or cls not in classes or id is None:
             return None
         cls = classes[cls]
-        obj = self.__session.query(cls).filter(cls.id == id).first()
-        return (obj)
+        objs = self.__session.query(cls).filter(cls.id == id)
+        if objs is None:
+            return None
+        return (objs.first())
 
     def all(self, cls=None):
         """query on the current database session"""

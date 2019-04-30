@@ -39,7 +39,9 @@ class FileStorage:
         """
         if cls is None or cls not in classes or id is None:
             return None
-        return self.__objects(cls + '.' + id)
+        if cls + '.' + id in self.__objects:
+            return self.__objects[cls + '.' + id]
+        return None
 
     def all(self, cls=None):
         """returns the dictionary __objects"""
