@@ -40,7 +40,6 @@ class DBStorage:
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
-
     def get(self, cls, id):
         """Retrieves an object based on the class name and its ID.
 
@@ -48,7 +47,7 @@ class DBStorage:
         exists and uses the columns to create the object for return.
 
         Args:
-            cls (str): String representing the class name (Place, User, Amenity)
+            cls (str): String representing the class name(Place, User, Amenity)
             id: (str): UUID4 string representing the object ID.
 
         Returns:
@@ -57,8 +56,8 @@ class DBStorage:
         """
         if cls is None or cls not in classes or id is None:
             return None
-        cls = classes(cls)
-        obj = self.__session.query(cls).filter(cls.id==id).first()
+        cls = classes[cls]
+        obj = self.__session.query(cls).filter(cls.id == id).first()
         return (obj)
 
     def all(self, cls=None):

@@ -30,7 +30,7 @@ class FileStorage:
         Checks the `__objects` dictionary for the object if it exists.
 
         Args:
-            cls (str): String representing the class name (Place, User, Amenity)
+            cls (str): String representing the class name(Place, User, Amenity)
             id: (str): UUID4 string representing the object ID.
 
         Returns:
