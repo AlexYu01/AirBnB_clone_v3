@@ -5,14 +5,14 @@ from flask import jsonify
 from models import storage
 
 
-@app_views.route("/status")
+@app_views.route("/status", strict_slashes=False)
 def status():
     """ returns a JSON """
     status = {"status": "OK"}
     return jsonify(status)
 
 
-@app_views.route("/stats")
+@app_views.route("/stats", strict_slashes=False)
 def stats():
     """ retrieves the number of each objects by type """
     class_dict = {"Amenity": "amenities", "City": "cities", "Place": "places",
