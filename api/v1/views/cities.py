@@ -111,7 +111,9 @@ def edit_city(city_id):
         return "Not a JSON", 400
     fields = request.get_json()
     for key in fields:
-        if key not in ['id', 'state_id', 'created_at', 'update_at']:
+        if key in ['id', 'state_id', 'created_at', 'update_at']:
+            continue
+        if key in city_obj.__dict__:
             city_obj.__dict__[key] = fields[key]
     storage.save()
     return jsonify(city_obj.to_dict()), 200
