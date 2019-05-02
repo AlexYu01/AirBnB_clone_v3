@@ -29,14 +29,9 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """Initialization of the base model"""
         if kwargs:
-            hash_pw = kwargs.get('hash_pw', True)
-            if hash_pw is False:
-                del kwargs['hash_pw']
             for key, value in kwargs.items():
                 if key != "__class__":
                     setattr(self, key, value)
-                    if key == "password" and hash_pw is False:
-                        super().__setattr__(key, value)
             if kwargs.get("created_at", None) and type(self.created_at) is str:
                 self.created_at = datetime.strptime(kwargs["created_at"], time)
             else:
