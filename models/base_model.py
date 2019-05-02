@@ -64,16 +64,7 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self, hide_pw=True):
-        """returns a dictionary containing all keys/values of the instance.
-
-        Args:
-            hide_pw (bool, optional): If set to False, the `password` key if it
-            exists within `new_dict` will be left in the dictionary, otherwise
-            it will be removed.
-
-        Returns:
-            A dictionary of all key/values of an instance.
-        """
+        """returns a dictionary containing all keys/values of the instance"""
         new_dict = self.__dict__.copy()
         if "created_at" in new_dict:
             new_dict["created_at"] = new_dict["created_at"].strftime(time)
