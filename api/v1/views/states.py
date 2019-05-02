@@ -76,8 +76,7 @@ def create_state():
     if fields.get('name') is None:
         return "Missing name", 400
     new_state = State(**fields)
-    storage.new(new_state)
-    storage.save()
+    new_state.save()
     return jsonify(new_state.to_dict()), 201
 
 
@@ -105,6 +104,7 @@ def update_state(state_id=None):
         abort(404)
     for key in fields:
         if key not in ['id', 'created_at', 'updated_at']:
-            state_obj.__dict__[key] = fields[key]
-    storage.save()
-    return jsonify(new_state.to_dict()), 200
+            if hasattr(state_obj, key):
+                setattr(state_obj, key, fields[key])
+    state_obj.save()
+    return jsonify(state_obj.to_dict()), 200
