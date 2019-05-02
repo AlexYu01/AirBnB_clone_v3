@@ -82,6 +82,7 @@ class TestFileStorage(unittest.TestCase):
     def test_returns_obj(self):
         """Test that get returns an existing object """
         storage = FileStorage()
+        storage.new(State())
         first_state_obj = list(storage.all("State").values())[0]
         state_obj = storage.get("State", first_state_obj.id)
         self.assertIs(first_state_obj, state_obj)
