@@ -17,7 +17,7 @@ def get_users():
     return jsonify(users)
 
 
-@app_views.route('users/<string:user_id>', methods=['GET'],
+@app_views.route('/users/<string:user_id>', methods=['GET'],
                  strict_slashes=False)
 def get_user(user_id):
     """ Retrieves a User object based on `user_id`.
@@ -87,7 +87,7 @@ def edit_user(user_id):
         user_id (str): The UUID4 string representing a User object.
 
     Returns:
-        Returns the User object as a  dictionary in JSON format with the
+        Returns the User object as a dictionary in JSON format with the
         status code 200.
         400 error if the HTTP body request is not a valid JSON.
         404 error if `user_id` is not linked to any User object.
@@ -104,5 +104,4 @@ def edit_user(user_id):
         if hasattr(user_obj, key):
             setattr(user_obj, key, fields[key])
     user_obj.save()
-    user_obj = storage.get("User", user_obj.id)
     return jsonify(user_obj.to_dict()), 200
