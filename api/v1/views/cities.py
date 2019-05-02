@@ -86,8 +86,7 @@ def add_city(state_id):
         return "Missing name", 400
     fields['state_id'] = state_id
     new_city = City(**fields)
-    storage.new(new_city)
-    storage.save()
+    new_city.save()
     return jsonify(new_city.to_dict()), 201
 
 
@@ -113,7 +112,7 @@ def edit_city(city_id):
     for key in fields:
         if key in ['id', 'state_id', 'created_at', 'update_at']:
             continue
-        if key in city_obj.__dict__:
-            city_obj.__dict__[key] = fields[key]
-    storage.save()
+        if hasattr(city_obj, key):
+            setattr(city_obj, key, fields[key])
+    city_obj.save()
     return jsonify(city_obj.to_dict()), 200
