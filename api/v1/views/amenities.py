@@ -105,7 +105,7 @@ def update_amenity(amenity_id=None):
         abort(404)
     for key in fields:
         if key not in ['id', 'created_at', 'updated_at']:
-            if hasattr(amenity_obj, fields[key]):
+            if hasattr(amenity_obj, key):
                 setattr(amenity_obj, key, fields[key])
     amenity_obj.save()
     return jsonify(amenity_obj.to_dict()), 200
