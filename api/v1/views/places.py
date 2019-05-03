@@ -153,6 +153,12 @@ def filter_places():
             for place in city.places:
                 places.add(place)
     if amenities != []:
+        amenities = set(amenities)
+        temp = set()
+        for amenity_id in amenities:
+            if storage.get("Amenity", amenity_id) is not None:
+                temp.add(amenity_id)
+        amenities = temp
         to_remove = set()
         for place in places:
             if storage_t == 'db':
