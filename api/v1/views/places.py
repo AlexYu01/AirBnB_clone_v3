@@ -137,10 +137,9 @@ def filter_places():
     states = fields.get('states', [])
     cities = fields.get('cities', [])
     amenities = fields.get('amenities', [])
-    if fields == {} or (states == [] and cities == [] and amenities == []):
-        return jsonify([place.to_dict()
-                       for place in storage.all("Place").values()])
     places = set()
+    if fields == {} or (states == [] and cities == []):
+        places = set(storage.all("Place").values())
     for state_id in states:
         state = storage.get('State', state_id)
         if state is not None:
