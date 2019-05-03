@@ -78,6 +78,8 @@ class TestFileStorage(unittest.TestCase):
     @unittest.skipIf(models.storage_t != 'db', "not testing db storage")
     def test_returns_obj(self):
         """Test that get returns an existing object """
+        state = State(name="California")
+        state.save()
         first_state_obj = list(models.storage.all("State").values())[0]
         state_obj = models.storage.get("State", first_state_obj.id)
         self.assertIs(first_state_obj, state_obj)
