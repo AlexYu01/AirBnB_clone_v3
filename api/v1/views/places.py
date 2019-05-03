@@ -2,7 +2,7 @@
 """ Module containing Place View """
 from api.v1.views import app_views
 from flask import jsonify, abort, request
-from models import storage
+from models import storage, storage_t
 from models.place import Place
 
 
@@ -120,3 +120,47 @@ def edit_place(place_id):
                 setattr(place_obj, key, fields[key])
     place_obj.save()
     return jsonify(place_obj.to_dict()), 200
+
+
+@app_views.route('/places_search', methods=['POST'], strict_slashes=False)
+def filter_places():
+    """ Filter Places based on optional JSON keys passed through HTTP body
+        request.
+
+    Returns:
+        List of dictionaries representing Place objects.
+        400 error if JSON was not passed.
+    """
+    if request.json is None:
+        return "Not a JSON", 400
+    fields = request.get_json()
+    states = fields.get('states', [])
+    cities = fields.get('cities', [])
+    amenities = fields.get('amenities', [])
+    if fields == {} or (states == [] and cities == [] and amenities == []):
+        return jsonify([place.to_dict()
+                       for place in storage.all("Place").values()])
+    places = set()
+    for state_id in states:
+        state = storage.get('State', state_id)
+        if state is not None:
+            for city in state.cities:
+                for place in city.places:
+                    places.add(place)
+    for city_id in cities:
+        city = storage.get('City', city_id)
+        if city is not None:
+            for place in city.places:
+                places.add(place)
+    if amenities != []:
+        to_remove = set()
+        for place in places:
+            if storage_t == 'db':
+                amenities_id = {amenity.id for amenity in place.amenities}
+            else:
+                amenities_id = set(place.amenity_ids)
+            if not set(amenities).issubset(amenities_id):
+                to_remove.add(place)
+            del place.amenities
+        places -= to_remove
+    return jsonify([place.to_dict() for place in places])
